@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Button, RefreshControl } from "react-native";
+import { View, Text, ScrollView, Button, RefreshControl, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -49,6 +49,7 @@ const TransactionKantin = () => {
 
   return (
     <ScrollView
+      className="mt-10"
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
@@ -59,37 +60,38 @@ const TransactionKantin = () => {
         ) : (
           <View className="flex flex-col h-full w-full p-3">
             <View className="flex flex-col bg-white rounded-lg p-3">
-              <Text className="text-lg">List Pembelian Barang</Text>
+              <Text className="text-lg font-bold">Transaksi Pembelian Barang</Text>
               {transactionKantin.transactions.map((item, index) => (
                 <View
                   className="flex flex-row justify-between items-center bg-white p-3 mt-2 rounded-lg border border-gray-300"
                   key={index}
                 >
                   <View className="flex flex-col">
-                    <Text>{item.order_code}</Text>
+                    <Text className="underline">{item.order_code}</Text>
+                    <View className="flex flex-row">
+                        <Text className="mr-2">{item.products.name}</Text>
+                        <Text>
+                            {formatToRp(item.price)} | {item.quantity}x
+                        </Text>
+                    </View>
                     {item.user_transactions.map((val, ind) => (
-                      <Text key={ind}>{val.name}</Text>
+                        <Text className="font-bold text-blue-300 " key={ind}>{val.name}</Text>
                     ))}
-                    <Text>{item.products.name}</Text>
-                    <Text>
-                      {formatToRp(item.price)} | {item.quantity}x
-                    </Text>
                   </View>
                   <View className="flex flex-row">
                     <Text
                       className={
                         item.status === "dibayar"
-                          ? `bg-green-300 p-2 rounded`
-                          : `bg-yellow-300 p-2 rounded`
+                          ? `py-2 text-yellow-600 font-semibold text-sm`
+                          : `font-bold text-sm`
                       }
                     >
                       {item.status}
                     </Text>
                     {item.status === "dibayar" ? (
-                      <Button
-                        title="Verif"
-                        onPress={() => verifPengambilan(item.id)}
-                      />
+                        <TouchableOpacity className="justify-center p-2 border rounded-lg mx-1 bg-blue-400" onPress={() => verifPengambilan(item.id)}>
+                            <Text className="font-bold text-sm">Accept</Text>
+                        </TouchableOpacity>
                     ) : (
                       <></>
                     )}

@@ -5,12 +5,15 @@ import axios from "axios";
 import Card from "../../component/Card";
 import API_BASE_URL from "../../const/url";
 import { FontAwesome } from "@expo/vector-icons";
+import { RefreshControl } from "react-native";
+
 
 const HomeKantin = ({ route, navigation }) => {
   const [dataKantin, setdataKantin] = useState([]);
   const [loading, setloading] = useState(true);
   const [roleAuth, setroleAuth] = useState("");
   const [nameAuth, setnameAuth] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   const { successCreate, successEdit } = route.params || {};
 
   const deleteProduct = async (id) => {
@@ -64,6 +67,9 @@ const HomeKantin = ({ route, navigation }) => {
     }
   };
 
+  const onRefresh = () => {
+    getDataKantin();
+  };
   return (
     <View className="container mx-auto h-full w-full mt-10">
       {loading ? (
@@ -87,6 +93,9 @@ const HomeKantin = ({ route, navigation }) => {
             </View>
           </View>
           <FlatList 
+           refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
             className="flex flex-col my-10"
             data={dataKantin.products}
             keyExtractor={(item) => item.id.toString()}
