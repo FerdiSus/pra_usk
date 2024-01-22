@@ -26,7 +26,7 @@ const MainKantin = () => {
           headerShown: false,
           tabBarLabel: "Transaction",
           tabBarIcon: ({}) => (
-            <FontAwesome name="exchange" size={24} color="black" />
+            <FontAwesome name="archive" size={24} color="black" />
           ),
         }}
       />

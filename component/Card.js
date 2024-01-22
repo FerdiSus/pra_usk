@@ -1,4 +1,4 @@
-import { View, Text, Image, Button, TextInput, Alert } from "react-native";
+import { View, Text, Image, Button, TextInput, Alert, TouchableOpacity, TouchableOpacityBase} from "react-native";
 import React, { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -98,13 +98,17 @@ const Card = ({
             <Button title="Add to cart" onPress={() => addToCart(quantity)} />
           </View>
         ) : (
-          <View className="flex flex-row items-center justify-center">
-            <Button
-              title="Edit"
-              onPress={() => navigation.navigate("EditProduct", { id: id })}
-            />
-            <View className="bg-white p-6"></View>
-            <Button title="Delete" onPress={() => deleteProduct(id)} />
+          <View className="flex flex-row items-center justify-evenly">
+            <View className="flex">
+            <TouchableOpacity className="py-4 px-10 border border-slate-800 rounded-lg bg-yellow-400" onPress={() => navigation.navigate("EditProduct", { id: id })} >
+                <Text className=" font-bold text-sm">Edit</Text>
+            </TouchableOpacity>
+            </View>
+            <View className="flex">
+            <TouchableOpacity className="py-4 px-10 border border-slate-800 rounded-lg bg-red-400" onPress={() => deleteProduct(id)} >
+                <Text className="text-white font-bold text-sm">Delete</Text>
+            </TouchableOpacity>
+            </View>
           </View>
         )}
       </View>
